@@ -2,6 +2,7 @@ package io.github.dinosage.bridge;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -87,7 +88,7 @@ public class GameScreen implements Screen {
         DrawSpriteSystem spriteSystem = new DrawSpriteSystem(1, this);
         engine.addSystem(spriteSystem);
 
-        // create player entity
+        // create and add player entity
         Entity player = new Entity();
         engine.addEntity(player);
 
@@ -96,11 +97,11 @@ public class GameScreen implements Screen {
         player.add(new SpriteComponent("bucket.png", 1, 1));
 
         PositionComponent pc = Mappers.pm.get(player);
-        pc.px = 1;
-        pc.py = 1;
+        pc.px = 0;
+        pc.py = 0;
 
-        VelocityComponent vc = Mappers.vm.get(player);
-        vc.vx = 1;
-        vc.vy = 1;
+        // setup player input
+        PlayerInputProcessor inputProcessor = new PlayerInputProcessor(player);
+        Gdx.input.setInputProcessor(inputProcessor);
     }
 }
