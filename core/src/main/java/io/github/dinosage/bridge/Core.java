@@ -8,7 +8,6 @@ public class Core extends Game {
 
     @Override
     public void create() {
-        Box2D.init();
         setScreen(new GameScreen());
     }
 

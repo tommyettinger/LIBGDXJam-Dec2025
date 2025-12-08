@@ -1,40 +1,28 @@
 package io.github.dinosage.bridge;
 
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.Shape;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import javax.swing.text.View;
+import io.github.dinosage.bridge.components.PosVelComponent;
 
 /** First screen of the application. Displayed after the application is created. */
 public class GameScreen implements Screen {
 
     // Variables
-    private World world;
-    private Box2DDebugRenderer debugRenderer;
+    private Engine engine;
     private Viewport viewport;
     private SpriteBatch batch;
     private Texture texture;
 
     public GameScreen() {
-        this.world = new World(new Vector2(0, -10f), true);
-        this.debugRenderer = new Box2DDebugRenderer();
+        this.engine = new Engine();
         this.viewport = new ExtendViewport(16, 9);
         this.batch = new SpriteBatch();
         texture = new Texture("bucket.png");
@@ -52,18 +40,12 @@ public class GameScreen implements Screen {
         // clear screen
         ScreenUtils.clear(Color.BLACK);
 
-        // step physics simulation
-        world.step(1/60f, 6, 2);
-
         // actual render
         viewport.apply();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
         batch.draw(texture, 0, 0, 1, 1);
         batch.end();
-
-        // debug physics render
-        debugRenderer.render(world, viewport.getCamera().combined);
     }
 
     @Override
@@ -95,25 +77,14 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         // Destroy screen's assets here.
-        world.dispose();
-        debugRenderer.dispose();
     }
 
     // Custom Functions
     public void setupGame() {
-        // create platform bodydef
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(viewport.getWorldWidth()/2, viewport.getWorldHeight()/2);
+        // create player entity
+        Entity player = new Entity();
+        engine.addEntity(player);
 
-        // create platform body
-        Body body = world.createBody(bodyDef);
-
-        // create fixture
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(viewport.getWorldWidth()/2, 0.5f);
-        body.createFixture(shape, 0f);
-
-        shape.dispose();
+        player.add(new PosVelComponent());
     }
 }
