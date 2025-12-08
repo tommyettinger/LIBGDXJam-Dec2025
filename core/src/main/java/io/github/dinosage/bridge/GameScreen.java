@@ -10,15 +10,19 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import io.github.dinosage.bridge.components.PosVelComponent;
+import io.github.dinosage.bridge.components.PositionComponent;
+import io.github.dinosage.bridge.components.SpriteComponent;
+import io.github.dinosage.bridge.components.VelocityComponent;
+import io.github.dinosage.bridge.systems.DrawSpriteSystem;
+import io.github.dinosage.bridge.systems.MovementSystem;
 
 /** First screen of the application. Displayed after the application is created. */
 public class GameScreen implements Screen {
 
     // Variables
-    private Engine engine;
-    private Viewport viewport;
-    private SpriteBatch batch;
+    public Engine engine;
+    public Viewport viewport;
+    public SpriteBatch batch;
     private Texture texture;
 
     public GameScreen() {
@@ -40,12 +44,7 @@ public class GameScreen implements Screen {
         // clear screen
         ScreenUtils.clear(Color.BLACK);
 
-        // actual render
-        viewport.apply();
-        batch.setProjectionMatrix(viewport.getCamera().combined);
-        batch.begin();
-        batch.draw(texture, 0, 0, 1, 1);
-        batch.end();
+        engine.update(delta);
     }
 
     @Override
@@ -81,10 +80,27 @@ public class GameScreen implements Screen {
 
     // Custom Functions
     public void setupGame() {
+        // create and add systems
+        MovementSystem movementSystem = new MovementSystem();
+        engine.addSystem(movementSystem);
+
+        DrawSpriteSystem spriteSystem = new DrawSpriteSystem(1, this);
+        engine.addSystem(spriteSystem);
+
         // create player entity
         Entity player = new Entity();
         engine.addEntity(player);
 
-        player.add(new PosVelComponent());
+        player.add(new PositionComponent());
+        player.add(new VelocityComponent());
+        player.add(new SpriteComponent("bucket.png", 1, 1));
+
+        PositionComponent pc = Mappers.pm.get(player);
+        pc.px = 1;
+        pc.py = 1;
+
+        VelocityComponent vc = Mappers.vm.get(player);
+        vc.vx = 1;
+        vc.vy = 1;
     }
 }
