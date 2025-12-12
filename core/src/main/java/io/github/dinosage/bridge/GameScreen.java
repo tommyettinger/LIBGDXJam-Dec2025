@@ -31,13 +31,12 @@ public class GameScreen implements Screen {
         this.viewport = new ExtendViewport(16, 9);
         this.batch = new SpriteBatch();
         texture = new Texture("bucket.png");
-
-        setupGame();
     }
 
     @Override
     public void show() {
         // Prepare your screen here.
+        setupGame();
     }
 
     @Override
@@ -95,7 +94,7 @@ public class GameScreen implements Screen {
 
         player.add(new PositionComponent(0, 0));
         player.add(new VelocityComponent());
-        player.add(new SpriteComponent("bucket.png", 1, 1));
+        player.add(new SpriteComponent(new Texture("bucket.png"), 1, 1));
 
         // setup player input
         PlayerInputProcessor inputProcessor = new PlayerInputProcessor(player);

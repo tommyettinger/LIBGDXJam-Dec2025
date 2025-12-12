@@ -7,10 +7,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 public class SpriteComponent implements Component {
     public Sprite sprite;
 
-    public SpriteComponent(String internalPath, float width, float height) {
-        Texture texture = new Texture(internalPath);
+    public SpriteComponent(Texture texture, float width, float height) {
         sprite = new Sprite(texture);
         sprite.setSize(width, height);
-        texture.dispose();
     }
 }
