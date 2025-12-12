@@ -46,6 +46,7 @@ public class GameScreen implements Screen {
         ScreenUtils.clear(Color.BLACK);
 
         engine.update(delta);
+        Gdx.app.log("Test", "In Game Screen");
     }
 
     @Override
@@ -92,13 +93,9 @@ public class GameScreen implements Screen {
         Entity player = new Entity();
         engine.addEntity(player);
 
-        player.add(new PositionComponent());
+        player.add(new PositionComponent(0, 0));
         player.add(new VelocityComponent());
         player.add(new SpriteComponent("bucket.png", 1, 1));
-
-        PositionComponent pc = Mappers.pm.get(player);
-        pc.px = 0;
-        pc.py = 0;
 
         // setup player input
         PlayerInputProcessor inputProcessor = new PlayerInputProcessor(player);

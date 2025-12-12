@@ -6,13 +6,36 @@ import com.badlogic.gdx.physics.box2d.Box2D;
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Core extends Game {
 
+    public static final int SCREEN_MENU = 0;
+    public static final int SCREEN_GAME = 1;
+
+    public HomeScreen homeScreen;
+    private GameScreen gameScreen;
+
+
     @Override
     public void create() {
-        setScreen(new GameScreen());
+        Box2D.init();
+        homeScreen = new HomeScreen(this);
+        gameScreen = new GameScreen();
+        switchScreen(SCREEN_MENU);
     }
 
     @Override
     public void render() {
         super.render();
+    }
+
+    public void switchScreen(int screen) {
+        switch (screen) {
+            case SCREEN_MENU:
+                setScreen(homeScreen);
+                break;
+            case SCREEN_GAME:
+                setScreen(gameScreen);
+                break;
+            default:
+                break;
+        }
     }
 }
