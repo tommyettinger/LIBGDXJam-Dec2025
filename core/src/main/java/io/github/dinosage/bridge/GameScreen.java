@@ -7,13 +7,16 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import io.github.dinosage.bridge.components.BoxShapeComponent;
 import io.github.dinosage.bridge.components.PositionComponent;
 import io.github.dinosage.bridge.components.SpriteComponent;
 import io.github.dinosage.bridge.components.VelocityComponent;
+import io.github.dinosage.bridge.systems.DrawShapeSystem;
 import io.github.dinosage.bridge.systems.DrawSpriteSystem;
 import io.github.dinosage.bridge.systems.MovementSystem;
 
@@ -24,12 +27,14 @@ public class GameScreen implements Screen {
     public Engine engine;
     public Viewport viewport;
     public SpriteBatch batch;
+    public ShapeRenderer shapeRenderer;
     private Texture texture;
 
     public GameScreen() {
         this.engine = new Engine();
         this.viewport = new ExtendViewport(16, 9);
         this.batch = new SpriteBatch();
+        this.shapeRenderer = new ShapeRenderer();
         texture = new Texture("bucket.png");
     }
 
@@ -85,7 +90,10 @@ public class GameScreen implements Screen {
         MovementSystem movementSystem = new MovementSystem();
         engine.addSystem(movementSystem);
 
-        DrawSpriteSystem spriteSystem = new DrawSpriteSystem(1, this);
+        DrawShapeSystem shapeSystem = new DrawShapeSystem(1, this);
+        engine.addSystem(shapeSystem);
+
+        DrawSpriteSystem spriteSystem = new DrawSpriteSystem(2, this);
         engine.addSystem(spriteSystem);
 
         // create and add player entity
@@ -95,6 +103,7 @@ public class GameScreen implements Screen {
         player.add(new PositionComponent(0, 0));
         player.add(new VelocityComponent());
         player.add(new SpriteComponent(new Texture("bucket.png"), 1, 1));
+        player.add(new BoxShapeComponent(1, 1, Color.WHITE));
 
         // setup player input
         PlayerInputProcessor inputProcessor = new PlayerInputProcessor(player);

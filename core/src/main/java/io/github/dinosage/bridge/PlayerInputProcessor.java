@@ -19,11 +19,11 @@ public class PlayerInputProcessor implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.W || keycode == Input.Keys.UP) {
-            VelocityComponent vc = Mappers.vm.get(player);
+            VelocityComponent vc = Maps.VELOCITY.get(player);
             vc.vy += PlayerAttributes.moveSpeedY;
             return true;
         } else if (keycode == Input.Keys.S || keycode == Input.Keys.DOWN) {
-            VelocityComponent vc = Mappers.vm.get(player);
+            VelocityComponent vc = Maps.VELOCITY.get(player);
             vc.vy -= PlayerAttributes.moveSpeedY;
             return true;
         }
@@ -34,11 +34,11 @@ public class PlayerInputProcessor implements InputProcessor {
     @Override
     public boolean keyUp(int keycode) {
         if (keycode == Input.Keys.W || keycode == Input.Keys.UP) {
-            VelocityComponent vc = Mappers.vm.get(player);
+            VelocityComponent vc = Maps.VELOCITY.get(player);
             vc.vy -= PlayerAttributes.moveSpeedY;
             return true;
         } else if (keycode == Input.Keys.S || keycode == Input.Keys.DOWN) {
-            VelocityComponent vc = Mappers.vm.get(player);
+            VelocityComponent vc = Maps.VELOCITY.get(player);
             vc.vy += PlayerAttributes.moveSpeedY;
             return true;
         }

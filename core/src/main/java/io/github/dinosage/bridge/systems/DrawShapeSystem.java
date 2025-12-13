@@ -5,7 +5,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import io.github.dinosage.bridge.GameScreen;
@@ -14,7 +13,7 @@ import io.github.dinosage.bridge.components.BoxShapeComponent;
 import io.github.dinosage.bridge.components.PositionComponent;
 import io.github.dinosage.bridge.components.SpriteComponent;
 
-public class DrawSpriteSystem extends EntitySystem {
+public class DrawShapeSystem extends EntitySystem {
 
     // Variables
     ImmutableArray<Entity> entities;
@@ -22,10 +21,11 @@ public class DrawSpriteSystem extends EntitySystem {
     public Family family;
 
 
-    public DrawSpriteSystem(int priority, GameScreen gameScreen) {
+    public DrawShapeSystem(int priority, GameScreen gameScreen) {
         super(priority);
         this.gameScreen = gameScreen;
-        family = Family.all(SpriteComponent.class, PositionComponent.class)
+        family = Family.all(PositionComponent.class)
+            .one(BoxShapeComponent.class)
             .get();
     }
 
@@ -41,15 +41,16 @@ public class DrawSpriteSystem extends EntitySystem {
 
     @Override
     public void update(float deltaTime) {
-        gameScreen.batch.setProjectionMatrix(gameScreen.viewport.getCamera().combined);
-        gameScreen.batch.begin();
+        ShapeRenderer renderer = gameScreen.shapeRenderer;
+        renderer.setProjectionMatrix(gameScreen.viewport.getCamera().combined);
+        renderer.begin(ShapeRenderer.ShapeType.Filled);
 
         for (Entity entity : entities) {
-            SpriteComponent sc = Maps.SPRITE.get(entity);
+            BoxShapeComponent bsc = Maps.BOX_SHAPE.get(entity);
             PositionComponent pc = Maps.POSITION.get(entity);
-            sc.sprite.setPosition(pc.px,pc.py);
-            sc.sprite.draw(gameScreen.batch);
+            renderer.setColor(bsc.color);
+            renderer.rect(pc.px, pc.py, bsc.width, bsc.height);
         }
-        gameScreen.batch.end();
+        renderer.end();
     }
 }
