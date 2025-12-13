@@ -28,14 +28,13 @@ public class GameScreen implements Screen {
     public Viewport viewport;
     public SpriteBatch batch;
     public ShapeRenderer shapeRenderer;
-    private Texture texture;
+    public Entity player;
 
     public GameScreen() {
         this.engine = new Engine();
         this.viewport = new ExtendViewport(16, 9);
         this.batch = new SpriteBatch();
         this.shapeRenderer = new ShapeRenderer();
-        texture = new Texture("bucket.png");
     }
 
     @Override
@@ -82,6 +81,8 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         // Destroy screen's assets here.
+        shapeRenderer.dispose();
+        batch.dispose();
     }
 
     // Custom Functions
@@ -97,16 +98,16 @@ public class GameScreen implements Screen {
         engine.addSystem(spriteSystem);
 
         // create and add player entity
-        Entity player = new Entity();
+        player = new Entity();
         engine.addEntity(player);
 
         player.add(new PositionComponent(0, 0));
-        player.add(new VelocityComponent());
+        player.add(new VelocityComponent(0, 0));
         player.add(new SpriteComponent(new Texture("bucket.png"), 1, 1));
         player.add(new BoxShapeComponent(1, 1, Color.WHITE));
 
         // setup player input
-        PlayerInputProcessor inputProcessor = new PlayerInputProcessor(player);
+        PlayerInputProcessor inputProcessor = new PlayerInputProcessor(this);
         Gdx.input.setInputProcessor(inputProcessor);
     }
 }

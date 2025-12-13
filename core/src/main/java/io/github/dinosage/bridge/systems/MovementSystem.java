@@ -10,8 +10,6 @@ import io.github.dinosage.bridge.components.VelocityComponent;
 
 public class MovementSystem extends IteratingSystem {
 
-    // Variables
-
     public MovementSystem() {
         super(Family.all(PositionComponent.class, VelocityComponent.class).get());
     }
