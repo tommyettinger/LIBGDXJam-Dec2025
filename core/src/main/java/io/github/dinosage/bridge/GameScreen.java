@@ -16,6 +16,7 @@ import io.github.dinosage.bridge.components.BoxShapeComponent;
 import io.github.dinosage.bridge.components.PositionComponent;
 import io.github.dinosage.bridge.components.SpriteComponent;
 import io.github.dinosage.bridge.components.VelocityComponent;
+import io.github.dinosage.bridge.systems.BridgeSystem;
 import io.github.dinosage.bridge.systems.DrawShapeSystem;
 import io.github.dinosage.bridge.systems.DrawSpriteSystem;
 import io.github.dinosage.bridge.systems.MovementSystem;
@@ -49,7 +50,6 @@ public class GameScreen implements Screen {
         ScreenUtils.clear(Color.BLACK);
 
         engine.update(delta);
-        Gdx.app.log("Test", "In Game Screen");
     }
 
     @Override
@@ -91,6 +91,9 @@ public class GameScreen implements Screen {
         MovementSystem movementSystem = new MovementSystem();
         engine.addSystem(movementSystem);
 
+        BridgeSystem bridgeSystem = new BridgeSystem(0, this);
+        engine.addSystem(bridgeSystem);
+
         DrawShapeSystem shapeSystem = new DrawShapeSystem(1, this);
         engine.addSystem(shapeSystem);
 
@@ -101,10 +104,14 @@ public class GameScreen implements Screen {
         player = new Entity();
         engine.addEntity(player);
 
-        player.add(new PositionComponent(0, 0));
+        player.add(new PositionComponent(1, 1));
         player.add(new VelocityComponent(0, 0));
         player.add(new SpriteComponent(new Texture("bucket.png"), 1, 1));
         player.add(new BoxShapeComponent(1, 1, Color.WHITE));
+
+        // create first plank
+        PositionComponent player_pc = Maps.POSITION.get(player);
+        bridgeSystem.createPlank(player_pc.px, player_pc.py - 0.5f);
 
         // setup player input
         PlayerInputProcessor inputProcessor = new PlayerInputProcessor(this);
