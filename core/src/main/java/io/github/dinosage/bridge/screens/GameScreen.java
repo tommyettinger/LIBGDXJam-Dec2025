@@ -29,6 +29,7 @@ import io.github.dinosage.bridge.systems.CollisionSystem;
 import io.github.dinosage.bridge.systems.DrawShapeSystem;
 import io.github.dinosage.bridge.systems.DrawSpriteSystem;
 import io.github.dinosage.bridge.systems.MovementSystem;
+import io.github.dinosage.bridge.systems.ObstacleSystem;
 import io.github.dinosage.bridge.systems.PlankItemSystem;
 
 /** First screen of the application. Displayed after the application is created. */
@@ -130,6 +131,9 @@ public class GameScreen implements Screen {
 
         PlankItemSystem plankItemSystem = new PlankItemSystem(-2, this);
         engine.addSystem(plankItemSystem);
+
+        ObstacleSystem obstacleSystem = new ObstacleSystem(-2, this);
+        engine.addSystem(obstacleSystem);
 
         BridgeSystem bridgeSystem = new BridgeSystem(-1, this);
         engine.addSystem(bridgeSystem);

@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 
 
@@ -46,9 +47,11 @@ public class CollisionSystem extends EntitySystem {
             BoxShapeComponent bsc = entity.getComponent(BoxShapeComponent.class);
 
             Rectangle rect = new Rectangle(pc.px, pc.py, bsc.width, bsc.height);
-            if (player_rect.overlaps(rect)) {
+            if (player_rect.overlaps(rect) & bsc.color == Color.BROWN) {
                 gameScreen.plankCount += GameAttr.PLANK_POWER_BOOST;
                 getEngine().removeEntity(entity);
+            } else if (player_rect.overlaps(rect) & bsc.color == Color.DARK_GRAY) {
+                gameScreen.gameOver();
             }
         }
     }
