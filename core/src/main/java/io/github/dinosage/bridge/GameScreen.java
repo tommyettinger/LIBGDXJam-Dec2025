@@ -104,7 +104,7 @@ public class GameScreen implements Screen {
         player = new Entity();
         engine.addEntity(player);
 
-        player.add(new PositionComponent(1, 1));
+        player.add(new PositionComponent(4, 1));
         player.add(new VelocityComponent(0, 0));
         player.add(new SpriteComponent(new Texture("bucket.png"), 1, 1));
         player.add(new BoxShapeComponent(1, 1, Color.WHITE));
@@ -115,6 +115,6 @@ public class GameScreen implements Screen {
 
         // setup player input
         PlayerInputProcessor inputProcessor = new PlayerInputProcessor(this);
-        Gdx.input.setInputProcessor(inputProcessor);
+        //Gdx.input.setInputProcessor(inputProcessor);
     }
 }

@@ -42,8 +42,17 @@ public class BridgeSystem extends EntitySystem {
 
         if (playerRightBound - plankRightBound > 0) {
             // create new plank
+            float height = plank_pc.py;
+            if (Gdx.input.isKeyPressed(Input.Keys.W) && !Gdx.input.isKeyPressed(Input.Keys.S)) {
+              height += plank_bsc.height;
+              player_pc.py += plank_bsc.height;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.S) && !Gdx.input.isKeyPressed(Input.Keys.W)) {
+              height -= plank_bsc.height;
+              player_pc.py -= plank_bsc.height;
+            }
+
             Gdx.app.log("TEST", "Creating new plank: " + plankRightBound);
-            createPlank(plankRightBound, plank_pc.py);
+            createPlank(plankRightBound, height);
         }
     }
 
