@@ -88,10 +88,10 @@ public class GameScreen implements Screen {
     // Custom Functions
     public void setupGame() {
         // create and add systems
-        MovementSystem movementSystem = new MovementSystem();
+        MovementSystem movementSystem = new MovementSystem(-2, this);
         engine.addSystem(movementSystem);
 
-        BridgeSystem bridgeSystem = new BridgeSystem(0, this);
+        BridgeSystem bridgeSystem = new BridgeSystem(-1, this);
         engine.addSystem(bridgeSystem);
 
         DrawShapeSystem shapeSystem = new DrawShapeSystem(1, this);
@@ -104,7 +104,7 @@ public class GameScreen implements Screen {
         player = new Entity();
         engine.addEntity(player);
 
-        player.add(new PositionComponent(4, 1));
+        player.add(new PositionComponent(7, 1));
         player.add(new VelocityComponent(0, 0));
         player.add(new SpriteComponent(new Texture("bucket.png"), 1, 1));
         player.add(new BoxShapeComponent(1, 1, Color.WHITE));

@@ -5,7 +5,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -14,7 +13,6 @@ import io.github.dinosage.bridge.GameScreen;
 import io.github.dinosage.bridge.Maps;
 import io.github.dinosage.bridge.components.BoxShapeComponent;
 import io.github.dinosage.bridge.components.PositionComponent;
-import io.github.dinosage.bridge.components.SpriteComponent;
 
 public class DrawShapeSystem extends EntitySystem {
 
@@ -61,10 +59,10 @@ public class DrawShapeSystem extends EntitySystem {
                 float top = pc.py + bsc.height;
 
                 renderer.setColor(Color.GRAY);
-                renderer.rectLine(left, bottom, right, bottom, GameAttr.shapeBorder);
-                renderer.rectLine(right, bottom, right, top, GameAttr.shapeBorder);
-                renderer.rectLine(right, top, left, top, GameAttr.shapeBorder);
-                renderer.rectLine(left, top, left, bottom, GameAttr.shapeBorder);
+                renderer.rectLine(left, bottom, right, bottom, GameAttr.SHAPE_BORDER);
+                renderer.rectLine(right, bottom, right, top, GameAttr.SHAPE_BORDER);
+                renderer.rectLine(right, top, left, top, GameAttr.SHAPE_BORDER);
+                renderer.rectLine(left, top, left, bottom, GameAttr.SHAPE_BORDER);
             }
 
         }

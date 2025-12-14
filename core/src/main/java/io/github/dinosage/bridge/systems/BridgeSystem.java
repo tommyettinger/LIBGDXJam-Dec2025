@@ -1,5 +1,6 @@
 package io.github.dinosage.bridge.systems;
 
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.Gdx;
@@ -19,12 +20,18 @@ public class BridgeSystem extends EntitySystem {
 
     LinkedList<Entity> planks;
     GameScreen gameScreen;
-
+    BridgeCleanupListener bridgeCleanup;
 
     public BridgeSystem(int priority, GameScreen gameScreen) {
         super(priority);
         planks = new LinkedList<>();
         this.gameScreen = gameScreen;
+    }
+
+    @Override
+    public void addedToEngine(Engine engine) {
+        bridgeCleanup = new BridgeCleanupListener(planks);
+        engine.addEntityListener(bridgeCleanup);
     }
 
     @Override
@@ -49,18 +56,19 @@ public class BridgeSystem extends EntitySystem {
               player_pc.py -= plank_bsc.height;
             }
 
-            Gdx.app.log("TEST", "Creating new plank: " + plankRightBound);
             createPlank(plankRightBound, height);
         }
+
+        Gdx.app.log("TEST", "Plank count: " + planks.size());
     }
 
     public void createPlank(float px, float py) {
         Entity plank = new Entity();
         gameScreen.engine.addEntity(plank);
 
-        plank.add(new PositionComponent(px, py));
-        plank.add(new VelocityComponent(GameAttr.plankVelX, 0));
-        plank.add(new BoxShapeComponent(GameAttr.plankWidth, GameAttr.plankHeight, Color.BROWN, true));
+        plank.add(new PositionComponent(px, py, true));
+        plank.add(new VelocityComponent(GameAttr.PLANK_VEL_X, 0));
+        plank.add(new BoxShapeComponent(GameAttr.PLANK_WIDTH, GameAttr.PLANK_HEIGHT, Color.BROWN, true));
 
         planks.add(plank);
     }
