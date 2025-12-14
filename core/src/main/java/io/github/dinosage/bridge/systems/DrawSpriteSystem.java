@@ -38,7 +38,8 @@ public class DrawSpriteSystem extends EntitySystem {
 
     @Override
     public void update(float deltaTime) {
-        gameScreen.batch.setProjectionMatrix(gameScreen.viewport.getCamera().combined);
+        gameScreen.gameView.apply();
+        gameScreen.batch.setProjectionMatrix(gameScreen.gameView.getCamera().combined);
         gameScreen.batch.begin();
 
         for (Entity entity : entities) {

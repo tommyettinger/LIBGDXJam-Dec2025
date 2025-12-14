@@ -4,12 +4,19 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import io.github.dinosage.bridge.components.BoxShapeComponent;
@@ -26,14 +33,21 @@ public class GameScreen implements Screen {
 
     // Variables
     public Engine engine;
-    public Viewport viewport;
-    public SpriteBatch batch;
-    public ShapeRenderer shapeRenderer;
+    public Viewport gameView;
     public Entity player;
+
+    // disposables
+    public SpriteBatch batch;
+    public Stage stage;
+    public Skin skin;
+    public BitmapFont font;
+    public ShapeRenderer shapeRenderer;
+
 
     public GameScreen() {
         this.engine = new Engine();
-        this.viewport = new ExtendViewport(16, 9);
+        this.gameView = new ExtendViewport(16, 9);
+        this.stage = new Stage(new ScreenViewport());
         this.batch = new SpriteBatch();
         this.shapeRenderer = new ShapeRenderer();
     }
@@ -42,6 +56,7 @@ public class GameScreen implements Screen {
     public void show() {
         // Prepare your screen here.
         setupGame();
+        setupUI();
     }
 
     @Override
@@ -50,6 +65,8 @@ public class GameScreen implements Screen {
         ScreenUtils.clear(Color.BLACK);
 
         engine.update(delta);
+        stage.act(delta);
+        stage.draw();
     }
 
     @Override
@@ -59,7 +76,7 @@ public class GameScreen implements Screen {
         if(width <= 0 || height <= 0) return;
 
         // Resize your screen here. The parameters represent the new window size.
-        viewport.update(width, height, true);
+        gameView.update(width, height, true);
     }
 
     @Override
@@ -83,6 +100,9 @@ public class GameScreen implements Screen {
         // Destroy screen's assets here.
         shapeRenderer.dispose();
         batch.dispose();
+        stage.dispose();
+        skin.dispose();
+        font.dispose();
     }
 
     // Custom Functions
@@ -116,5 +136,22 @@ public class GameScreen implements Screen {
         // setup player input
         PlayerInputProcessor inputProcessor = new PlayerInputProcessor(this);
         //Gdx.input.setInputProcessor(inputProcessor);
+    }
+
+    public void setupUI() {
+        skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+        font = new BitmapFont(new FileHandle("added-fonts/arial-b-20.fnt"));
+
+        Table table = new Table();
+        table.setFillParent(true);
+        table.setDebug(true);
+        table.top().pad(50);
+        stage.addActor(table);
+
+        Label.LabelStyle style = new Label.LabelStyle();
+        style.fontColor = Color.WHITE;
+        style.font = font;
+        Label plankLabel = new Label("Planks: ", style);
+        table.add(plankLabel).expandX().left();
     }
 }

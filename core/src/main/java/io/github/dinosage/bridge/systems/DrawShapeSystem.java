@@ -42,8 +42,9 @@ public class DrawShapeSystem extends EntitySystem {
 
     @Override
     public void update(float deltaTime) {
+        gameScreen.gameView.apply();
         ShapeRenderer renderer = gameScreen.shapeRenderer;
-        renderer.setProjectionMatrix(gameScreen.viewport.getCamera().combined);
+        renderer.setProjectionMatrix(gameScreen.gameView.getCamera().combined);
 
         renderer.begin(ShapeRenderer.ShapeType.Filled);
         for (Entity entity : entities) {
