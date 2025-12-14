@@ -7,6 +7,8 @@ public class GameAttr {
     public static float PLANK_SPAWN_INTERVAL = 1f;
     public static final float PLANK_ITEM_VEL_X = -5f;
 
+    public static final int PLANK_POWER_BOOST = 10;
+
 
     public static float PLANK_WIDTH = 3f;
     public static float PLANK_HEIGHT = 0.5f;

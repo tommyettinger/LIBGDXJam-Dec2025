@@ -25,6 +25,7 @@ import io.github.dinosage.bridge.components.BoxShapeComponent;
 import io.github.dinosage.bridge.components.PositionComponent;
 import io.github.dinosage.bridge.components.VelocityComponent;
 import io.github.dinosage.bridge.systems.BridgeSystem;
+import io.github.dinosage.bridge.systems.CollisionSystem;
 import io.github.dinosage.bridge.systems.DrawShapeSystem;
 import io.github.dinosage.bridge.systems.DrawSpriteSystem;
 import io.github.dinosage.bridge.systems.MovementSystem;
@@ -132,6 +133,9 @@ public class GameScreen implements Screen {
 
         BridgeSystem bridgeSystem = new BridgeSystem(-1, this);
         engine.addSystem(bridgeSystem);
+
+        CollisionSystem collisionSystem = new CollisionSystem(0, this);
+        engine.addSystem(collisionSystem);
 
         DrawShapeSystem shapeSystem = new DrawShapeSystem(1, this);
         engine.addSystem(shapeSystem);
