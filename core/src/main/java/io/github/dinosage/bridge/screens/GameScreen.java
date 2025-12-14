@@ -188,6 +188,7 @@ public class GameScreen implements Screen {
 
     // Public Functions
     public void gameOver() {
+        game.score = score;
         game.switchScreen(Core.SCREEN_GAME_OVER);
     }
 }

@@ -17,6 +17,7 @@ public class Core extends Game {
     public HomeScreen homeScreen;
     private GameScreen gameScreen;
     private GameOverScreen gameOverScreen;
+    public int score;
 
 
     @Override
