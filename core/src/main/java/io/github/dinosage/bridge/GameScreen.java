@@ -36,6 +36,15 @@ public class GameScreen implements Screen {
     public Viewport gameView;
     public Entity player;
 
+
+    // game - related
+    public int score;
+    public int plankCount;
+
+    // ui elements
+    Label plankCountValue;
+    Label scoreValue;
+
     // disposables
     public SpriteBatch batch;
     public Stage stage;
@@ -65,8 +74,7 @@ public class GameScreen implements Screen {
         ScreenUtils.clear(Color.BLACK);
 
         engine.update(delta);
-        stage.act(delta);
-        stage.draw();
+        updateUI(delta);
     }
 
     @Override
@@ -126,32 +134,49 @@ public class GameScreen implements Screen {
 
         player.add(new PositionComponent(7, 1));
         player.add(new VelocityComponent(0, 0));
-        player.add(new SpriteComponent(new Texture("bucket.png"), 1, 1));
         player.add(new BoxShapeComponent(1, 1, Color.WHITE));
 
         // create first plank
         PositionComponent player_pc = Maps.POSITION.get(player);
         bridgeSystem.createPlank(player_pc.px, player_pc.py - 0.5f);
 
-        // setup player input
-        PlayerInputProcessor inputProcessor = new PlayerInputProcessor(this);
-        //Gdx.input.setInputProcessor(inputProcessor);
+        plankCount = GameAttr.START_PLANK_COUNT;
     }
 
     public void setupUI() {
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
-        font = new BitmapFont(new FileHandle("added-fonts/arial-b-20.fnt"));
+        font = new BitmapFont(Gdx.files.internal("added-fonts/arial-b-20.fnt"));
 
         Table table = new Table();
         table.setFillParent(true);
         table.setDebug(true);
-        table.top().pad(50);
+        table.top().left().pad(50);
         stage.addActor(table);
 
         Label.LabelStyle style = new Label.LabelStyle();
         style.fontColor = Color.WHITE;
         style.font = font;
-        Label plankLabel = new Label("Planks: ", style);
-        table.add(plankLabel).expandX().left();
+
+        Label plankCountText = new Label("Planks: ", style);
+        table.add(plankCountText).left();
+
+        plankCountValue = new Label("0", style);
+        table.add(plankCountValue).left();
+
+        table.row();
+
+        Label scoreText = new Label("Score: ", style);
+        table.add(scoreText).left();
+
+        scoreValue = new Label("0", style);
+        table.add(scoreValue).left();
+    }
+
+    public void updateUI(float delta) {
+        plankCountValue.setText(plankCount);
+        scoreValue.setText(score);
+
+        stage.act(delta);
+        stage.draw();
     }
 }

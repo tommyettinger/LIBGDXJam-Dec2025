@@ -57,6 +57,7 @@ public class BridgeSystem extends EntitySystem {
             }
 
             createPlank(plankRightBound, height);
+            gameScreen.plankCount--;
         }
 
         Gdx.app.log("TEST", "Plank count: " + planks.size());
