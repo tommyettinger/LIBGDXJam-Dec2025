@@ -59,14 +59,15 @@ public class GameScreen implements Screen {
         this.game = core;
         this.engine = new Engine();
         this.gameView = new ExtendViewport(16, 9);
-        this.stage = new Stage(new ScreenViewport());
-        this.batch = new SpriteBatch();
-        this.shapeRenderer = new ShapeRenderer();
     }
 
     @Override
     public void show() {
         // Prepare your screen here.
+        this.stage = new Stage(new ScreenViewport());
+        this.batch = new SpriteBatch();
+        this.shapeRenderer = new ShapeRenderer();
+
         setupGame();
         setupUI();
     }
