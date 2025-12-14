@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.Color;
 import java.util.LinkedList;
 
 import io.github.dinosage.bridge.GameAttr;
-import io.github.dinosage.bridge.GameScreen;
+import io.github.dinosage.bridge.screens.GameScreen;
 import io.github.dinosage.bridge.Maps;
 import io.github.dinosage.bridge.components.BoxShapeComponent;
 import io.github.dinosage.bridge.components.PositionComponent;
@@ -32,6 +32,11 @@ public class BridgeSystem extends EntitySystem {
     public void addedToEngine(Engine engine) {
         bridgeCleanup = new BridgeCleanupListener(planks);
         engine.addEntityListener(bridgeCleanup);
+    }
+
+    @Override
+    public void removedFromEngine(Engine engine) {
+        engine.removeEntityListener(bridgeCleanup);
     }
 
     @Override
@@ -58,6 +63,9 @@ public class BridgeSystem extends EntitySystem {
 
             createPlank(plankRightBound, height);
             gameScreen.plankCount--;
+            if (gameScreen.plankCount < 0) {
+                gameScreen.gameOver();
+            }
         }
 
         Gdx.app.log("TEST", "Plank count: " + planks.size());

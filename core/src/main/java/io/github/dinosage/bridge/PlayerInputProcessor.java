@@ -2,6 +2,8 @@ package io.github.dinosage.bridge;
 
 import com.badlogic.gdx.InputProcessor;
 
+import io.github.dinosage.bridge.screens.GameScreen;
+
 public class PlayerInputProcessor implements InputProcessor {
 
     // Variables

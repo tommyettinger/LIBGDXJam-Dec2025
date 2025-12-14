@@ -1,12 +1,11 @@
-package io.github.dinosage.bridge;
+package io.github.dinosage.bridge.screens;
 
+import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -19,9 +18,11 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import io.github.dinosage.bridge.Core;
+import io.github.dinosage.bridge.GameAttr;
+import io.github.dinosage.bridge.Maps;
 import io.github.dinosage.bridge.components.BoxShapeComponent;
 import io.github.dinosage.bridge.components.PositionComponent;
-import io.github.dinosage.bridge.components.SpriteComponent;
 import io.github.dinosage.bridge.components.VelocityComponent;
 import io.github.dinosage.bridge.systems.BridgeSystem;
 import io.github.dinosage.bridge.systems.DrawShapeSystem;
@@ -38,6 +39,7 @@ public class GameScreen implements Screen {
 
 
     // game - related
+    public Core game;
     public int score;
     public int plankCount;
 
@@ -53,7 +55,8 @@ public class GameScreen implements Screen {
     public ShapeRenderer shapeRenderer;
 
 
-    public GameScreen() {
+    public GameScreen(Core core) {
+        this.game = core;
         this.engine = new Engine();
         this.gameView = new ExtendViewport(16, 9);
         this.stage = new Stage(new ScreenViewport());
@@ -85,6 +88,7 @@ public class GameScreen implements Screen {
 
         // Resize your screen here. The parameters represent the new window size.
         gameView.update(width, height, true);
+        stage.getViewport().update(width, height);
     }
 
     @Override
@@ -101,6 +105,8 @@ public class GameScreen implements Screen {
     public void hide() {
         // This method is called when another screen replaces this one.
         dispose();
+        engine.removeAllEntities();
+        engine.removeAllSystems();
     }
 
     @Override
@@ -113,8 +119,8 @@ public class GameScreen implements Screen {
         font.dispose();
     }
 
-    // Custom Functions
-    public void setupGame() {
+    // Private Functions
+    private void setupGame() {
         // create and add systems
         MovementSystem movementSystem = new MovementSystem(-2, this);
         engine.addSystem(movementSystem);
@@ -143,13 +149,13 @@ public class GameScreen implements Screen {
         plankCount = GameAttr.START_PLANK_COUNT;
     }
 
-    public void setupUI() {
+    private void setupUI() {
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
         font = new BitmapFont(Gdx.files.internal("added-fonts/arial-b-20.fnt"));
 
         Table table = new Table();
         table.setFillParent(true);
-        table.setDebug(true);
+        table.setDebug(GameAttr.DEBUG_UI);
         table.top().left().pad(50);
         stage.addActor(table);
 
@@ -172,11 +178,16 @@ public class GameScreen implements Screen {
         table.add(scoreValue).left();
     }
 
-    public void updateUI(float delta) {
+    private void updateUI(float delta) {
         plankCountValue.setText(plankCount);
         scoreValue.setText(score);
 
         stage.act(delta);
         stage.draw();
+    }
+
+    // Public Functions
+    public void gameOver() {
+        game.switchScreen(Core.SCREEN_GAME_OVER);
     }
 }

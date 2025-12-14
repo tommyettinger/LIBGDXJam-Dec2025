@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import io.github.dinosage.bridge.GameAttr;
-import io.github.dinosage.bridge.GameScreen;
+import io.github.dinosage.bridge.screens.GameScreen;
 import io.github.dinosage.bridge.Maps;
 import io.github.dinosage.bridge.components.BoxShapeComponent;
 import io.github.dinosage.bridge.components.PositionComponent;

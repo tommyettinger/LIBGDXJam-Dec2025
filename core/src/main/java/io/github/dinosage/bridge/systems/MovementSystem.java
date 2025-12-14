@@ -3,11 +3,9 @@ package io.github.dinosage.bridge.systems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 
 import io.github.dinosage.bridge.GameAttr;
-import io.github.dinosage.bridge.GameScreen;
+import io.github.dinosage.bridge.screens.GameScreen;
 import io.github.dinosage.bridge.Maps;
 import io.github.dinosage.bridge.components.PositionComponent;
 import io.github.dinosage.bridge.components.VelocityComponent;
