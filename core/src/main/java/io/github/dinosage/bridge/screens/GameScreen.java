@@ -28,6 +28,7 @@ import io.github.dinosage.bridge.systems.BridgeSystem;
 import io.github.dinosage.bridge.systems.DrawShapeSystem;
 import io.github.dinosage.bridge.systems.DrawSpriteSystem;
 import io.github.dinosage.bridge.systems.MovementSystem;
+import io.github.dinosage.bridge.systems.PlankItemSystem;
 
 /** First screen of the application. Displayed after the application is created. */
 public class GameScreen implements Screen {
@@ -58,7 +59,7 @@ public class GameScreen implements Screen {
     public GameScreen(Core core) {
         this.game = core;
         this.engine = new Engine();
-        this.gameView = new ExtendViewport(16, 9);
+        this.gameView = new ExtendViewport(32, 18);
     }
 
     @Override
@@ -123,8 +124,11 @@ public class GameScreen implements Screen {
     // Private Functions
     private void setupGame() {
         // create and add systems
-        MovementSystem movementSystem = new MovementSystem(-2, this);
+        MovementSystem movementSystem = new MovementSystem(-3, this);
         engine.addSystem(movementSystem);
+
+        PlankItemSystem plankItemSystem = new PlankItemSystem(-2, this);
+        engine.addSystem(plankItemSystem);
 
         BridgeSystem bridgeSystem = new BridgeSystem(-1, this);
         engine.addSystem(bridgeSystem);

@@ -2,9 +2,12 @@ package io.github.dinosage.bridge;
 
 public class GameAttr {
 
-
     // Plank Attributes
-    public static int START_PLANK_COUNT = 10;
+    public static int START_PLANK_COUNT = 100;
+    public static float PLANK_SPAWN_INTERVAL = 1f;
+    public static final float PLANK_ITEM_VEL_X = -5f;
+
+
     public static float PLANK_WIDTH = 3f;
     public static float PLANK_HEIGHT = 0.5f;
     public static float PLANK_VEL_X = -10f;
