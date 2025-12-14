@@ -5,8 +5,11 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import io.github.dinosage.bridge.GameAttr;
 import io.github.dinosage.bridge.GameScreen;
 import io.github.dinosage.bridge.Maps;
 import io.github.dinosage.bridge.components.BoxShapeComponent;
@@ -43,13 +46,27 @@ public class DrawShapeSystem extends EntitySystem {
     public void update(float deltaTime) {
         ShapeRenderer renderer = gameScreen.shapeRenderer;
         renderer.setProjectionMatrix(gameScreen.viewport.getCamera().combined);
-        renderer.begin(ShapeRenderer.ShapeType.Filled);
 
+        renderer.begin(ShapeRenderer.ShapeType.Filled);
         for (Entity entity : entities) {
             BoxShapeComponent bsc = Maps.BOX_SHAPE.get(entity);
             PositionComponent pc = Maps.POSITION.get(entity);
             renderer.setColor(bsc.color);
             renderer.rect(pc.px, pc.py, bsc.width, bsc.height);
+
+            if (bsc.border) {
+                float left = pc.px;
+                float right = pc.px + bsc.width;
+                float bottom = pc.py;
+                float top = pc.py + bsc.height;
+
+                renderer.setColor(Color.GRAY);
+                renderer.rectLine(left, bottom, right, bottom, GameAttr.shapeBorder);
+                renderer.rectLine(right, bottom, right, top, GameAttr.shapeBorder);
+                renderer.rectLine(right, top, left, top, GameAttr.shapeBorder);
+                renderer.rectLine(left, top, left, bottom, GameAttr.shapeBorder);
+            }
+
         }
         renderer.end();
     }

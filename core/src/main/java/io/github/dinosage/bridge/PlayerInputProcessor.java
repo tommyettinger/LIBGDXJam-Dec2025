@@ -1,14 +1,6 @@
 package io.github.dinosage.bridge;
 
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Color;
-
-import io.github.dinosage.bridge.components.BoxShapeComponent;
-import io.github.dinosage.bridge.components.PlayerAttributes;
-import io.github.dinosage.bridge.components.PositionComponent;
-import io.github.dinosage.bridge.components.VelocityComponent;
 
 public class PlayerInputProcessor implements InputProcessor {
 

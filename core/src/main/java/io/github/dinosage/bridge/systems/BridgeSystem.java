@@ -5,12 +5,10 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Rectangle;
-
-import org.w3c.dom.css.Rect;
 
 import java.util.LinkedList;
 
+import io.github.dinosage.bridge.GameAttr;
 import io.github.dinosage.bridge.GameScreen;
 import io.github.dinosage.bridge.Maps;
 import io.github.dinosage.bridge.components.BoxShapeComponent;
@@ -40,7 +38,7 @@ public class BridgeSystem extends EntitySystem {
         float playerRightBound = player_pc.px + player_bsc.width;
         float plankRightBound = plank_pc.px + plank_bsc.width;
 
-        if (playerRightBound - plankRightBound > 0) {
+        if (playerRightBound - plankRightBound > player_bsc.width / 2) {
             // create new plank
             float height = plank_pc.py;
             if (Gdx.input.isKeyPressed(Input.Keys.W) && !Gdx.input.isKeyPressed(Input.Keys.S)) {
@@ -61,8 +59,8 @@ public class BridgeSystem extends EntitySystem {
         gameScreen.engine.addEntity(plank);
 
         plank.add(new PositionComponent(px, py));
-        plank.add(new VelocityComponent(-5f, 0));
-        plank.add(new BoxShapeComponent(3, 0.5f, Color.BROWN));
+        plank.add(new VelocityComponent(GameAttr.plankVelX, 0));
+        plank.add(new BoxShapeComponent(GameAttr.plankWidth, GameAttr.plankHeight, Color.BROWN, true));
 
         planks.add(plank);
     }
