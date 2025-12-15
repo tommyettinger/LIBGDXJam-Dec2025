@@ -18,7 +18,7 @@ public class ObstacleSystem extends IntervalSystem {
     GameScreen gameScreen;
 
     public ObstacleSystem(int priority, GameScreen gameScreen) {
-        super(GameAttr.OBSTACLE_SPAWN_INTERVAL, priority);
+        super(GameAttr.OBSTACLE_INTERVAL, priority);
         this.gameScreen = gameScreen;
     }
 
@@ -32,7 +32,7 @@ public class ObstacleSystem extends IntervalSystem {
         float height = MathUtils.random(0, gameScreen.gameView.getWorldHeight());
         plankItem.add(new PositionComponent(gameScreen.gameView.getWorldWidth() * 1.5f, height, true));
         plankItem.add(new VelocityComponent(GameAttr.OBSTACLE_VEL_X, 0));
-        plankItem.add(new BoxShapeComponent(2f, 2f, Color.DARK_GRAY, true));
+        plankItem.add(new BoxShapeComponent(GameAttr.OBSTACLE_WIDTH, GameAttr.OBSTACLE_HEIGHT, Color.DARK_GRAY, false));
         plankItem.add(new CollisionComponent());
     }
 }

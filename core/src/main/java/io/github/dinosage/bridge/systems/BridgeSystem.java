@@ -76,8 +76,8 @@ public class BridgeSystem extends EntitySystem {
         gameScreen.engine.addEntity(plank);
 
         plank.add(new PositionComponent(px, py, true));
-        plank.add(new VelocityComponent(GameAttr.PLANK_VEL_X, 0));
-        plank.add(new BoxShapeComponent(GameAttr.PLANK_WIDTH, GameAttr.PLANK_HEIGHT, Color.BROWN, true));
+        plank.add(new VelocityComponent(GameAttr.BRIDGE_VEL_X, 0));
+        plank.add(new BoxShapeComponent(GameAttr.BRIDGE_WIDTH, GameAttr.BRIDGE_HEIGHT, Color.BROWN, true));
 
         planks.add(plank);
     }

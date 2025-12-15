@@ -26,6 +26,7 @@ import io.github.dinosage.bridge.components.PositionComponent;
 import io.github.dinosage.bridge.components.VelocityComponent;
 import io.github.dinosage.bridge.systems.BridgeSystem;
 import io.github.dinosage.bridge.systems.CollisionSystem;
+import io.github.dinosage.bridge.systems.DifficultySystem;
 import io.github.dinosage.bridge.systems.DrawShapeSystem;
 import io.github.dinosage.bridge.systems.DrawSpriteSystem;
 import io.github.dinosage.bridge.systems.MovementSystem;
@@ -79,8 +80,8 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         // clear screen
         ScreenUtils.clear(Color.BLACK);
-
         engine.update(delta);
+        score += delta * GameAttr.SCORE_MULTIPLIER;
         updateUI(delta);
     }
 
@@ -146,6 +147,10 @@ public class GameScreen implements Screen {
 
         DrawSpriteSystem spriteSystem = new DrawSpriteSystem(2, this);
         engine.addSystem(spriteSystem);
+
+        DifficultySystem difficultySystem = new DifficultySystem(3);
+        engine.addSystem(difficultySystem);
+
 
         // create and add player entity
         player = new Entity();

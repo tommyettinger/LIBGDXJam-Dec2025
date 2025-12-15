@@ -4,8 +4,10 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -20,6 +22,7 @@ public class HomeScreen implements Screen {
 
     private Stage stage;
     private Skin skin;
+    private BitmapFont font;
     private final Core game;
 
     public HomeScreen(Core core) {
@@ -35,10 +38,20 @@ public class HomeScreen implements Screen {
         stage.addActor(table);
 
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+        font = new BitmapFont(Gdx.files.internal("added-fonts/arial-b-40.fnt"));
+
 
         Gdx.input.setInputProcessor(stage);
 
         // setup ui
+        Label.LabelStyle style = new Label.LabelStyle();
+        style.fontColor = Color.WHITE;
+        style.font = font;
+
+        Label titleLabel = new Label("Bridge Boy", style);
+        table.add(titleLabel);
+        table.row();
+
         TextButton button = new TextButton("Start Game", skin);
         button.addListener(new ChangeListener() {
             @Override
@@ -82,6 +95,7 @@ public class HomeScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        font.dispose();
         skin.dispose();
     }
 }

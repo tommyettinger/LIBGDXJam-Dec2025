@@ -18,7 +18,7 @@ public class PlankItemSystem extends IntervalSystem {
     GameScreen gameScreen;
 
     public PlankItemSystem(int priority, GameScreen gameScreen) {
-        super(GameAttr.PLANK_SPAWN_INTERVAL, priority);
+        super(GameAttr.PLANK_INTERVAL, priority);
         this.gameScreen = gameScreen;
     }
 
@@ -31,8 +31,8 @@ public class PlankItemSystem extends IntervalSystem {
 
         float height = MathUtils.random(0, gameScreen.gameView.getWorldHeight());
         plankItem.add(new PositionComponent(gameScreen.gameView.getWorldWidth() * 1.5f, height, true));
-        plankItem.add(new VelocityComponent(GameAttr.PLANK_ITEM_VEL_X, 0));
-        plankItem.add(new BoxShapeComponent(2f, 2f, Color.BROWN, true));
+        plankItem.add(new VelocityComponent(GameAttr.PLANK_VEL_X, 0));
+        plankItem.add(new BoxShapeComponent(GameAttr.PLANK_WIDTH, GameAttr.PLANK_HEIGHT, Color.BROWN, false));
         plankItem.add(new CollisionComponent());
     }
 }
