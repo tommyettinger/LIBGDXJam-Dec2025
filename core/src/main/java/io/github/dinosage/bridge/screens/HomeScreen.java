@@ -89,7 +89,7 @@ public class HomeScreen implements Screen {
 
     @Override
     public void hide() {
-        dispose();
+        Gdx.app.postRunnable(this::dispose);
     }
 
     @Override

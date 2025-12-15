@@ -109,7 +109,7 @@ public class GameScreen implements Screen {
     @Override
     public void hide() {
         // This method is called when another screen replaces this one.
-        dispose();
+        Gdx.app.postRunnable(this::dispose);
         engine.removeAllEntities();
         engine.removeAllSystems();
     }
